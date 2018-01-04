@@ -33,12 +33,28 @@ public function actionSaludo($get ="Estamos Preparando todo")//$get = "Vamos")
     public function actionRequest()
     {
         $mensaje = null;
-        if (isset ($_REQUEST["nombre"]))
+        if (isset($_REQUEST["nombre"]))
         {
-            $mensaje =  "Gracias por enviar tu nombre de forma correcta".$_REQUEST["nombre"];        }   
+            $mensaje =  "Gracias por enviar tu nombre de forma correcta: " . $_REQUEST["nombre"];        }   
          $this->redirect(["site/formulario","mensaje"=>$mensaje]);        
     }
 
+    public function actionValidarFormulario()
+    {
+        $model = new ValidarFormulario;
+        if ($model->load(Yii::$app->request->post()))
+            {
+                if ($model->validate())
+                {
+                    // Ejemplo:consultar bd 
+                }
+                else
+                {
+                    $model->getErrors();
+                    }
+                 }
+        return $this->render("validarformulario",["model"=>$model]);
+    }     
     
     public function behaviors()
     {
